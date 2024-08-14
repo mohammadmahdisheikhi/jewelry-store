@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+
 
 export default function Navbar(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +13,9 @@ export default function Navbar(): JSX.Element {
     <>
       <nav className="bg-primary p-4">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="text-black text-xl font-bold">تهران گلد</div>
+          <a href='/' className="text-black text-xl font-bold">تهران گلد</a>
           <div className="block lg:hidden">
+          <button onClick={() => window.location.href = '/cart'} className='mx-4'><FaShoppingCart className='w-6 h-6 text-gray-600'/></button>
             <button 
               onClick={toggleMenu} 
               className="text-black focus:outline-none"
@@ -46,6 +49,7 @@ export default function Navbar(): JSX.Element {
               </a>
             </div>
             <div>
+              <button onClick={() => window.location.href = '/cart'} className='mx-4'><FaShoppingCart  className='w-6 h-6 text-gray-600 translate-y-2'/></button>
               <a href="login" className="inline-block text-sm px-4 py-2 leading-none border rounded text-black border-black hover:border-transparent hover:text-gray-100 hover:bg-black mt-4 lg:mt-0">
                 ورود/ثبت نام
               </a>

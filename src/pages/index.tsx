@@ -16,7 +16,7 @@ export default function Home ():JSX.Element {
                         مشاهده همه
                     </a>
                 </div>
-                <div className="flex w-auto overflow-x-auto gap-4">
+                <div className="flex lg:grid lg:grid-cols-2 overflow-x-auto gap-4">
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
@@ -101,10 +101,10 @@ export default function Home ():JSX.Element {
 					<h6 className="text-gray-800 font-bold text-2xl mb-4">
                     دسترسی سریع 
 					</h6>
-						<li className="list-none"><a className="text-gray-800 text-sm">ورود و ثبت نام A1</a></li>
-						<li className="list-none"><a className="text-gray-800 text-sm">همه آگهی‌ها A2</a></li>
-						<li className="list-none"><a className="text-gray-800 text-sm">داشبورد شخصی B1</a></li>
-						<li className="list-none"><a className="text-gray-800 text-sm">علاقه‌مندی‌ها B2</a></li>
+						<li className="list-none"><a className="text-gray-800 text-sm">ورود و ثبت نام</a></li>
+						<li className="list-none"><a className="text-gray-800 text-sm">همه آگهی‌ها</a></li>
+						<li className="list-none"><a className="text-gray-800 text-sm">داشبورد شخصی</a></li>
+						<li className="list-none"><a className="text-gray-800 text-sm">علاقه‌مندی‌ها</a></li>
 						
 				</div>
 				{/*<div className="lg:w-3/12">

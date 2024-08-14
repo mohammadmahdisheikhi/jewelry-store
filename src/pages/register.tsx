@@ -25,7 +25,7 @@ export default function Register(): JSX.Element {
       .test(
         'fileSize',
         'The file is too large',
-        (value) => value === null || (value && value.size <= 5 * 1024 * 1024) // 5MB
+        (value) => value === null || (value && value.size <= 5 * 1024 * 1024)
       )
       .test(
         'fileFormat',

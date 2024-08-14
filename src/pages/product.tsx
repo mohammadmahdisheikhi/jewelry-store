@@ -3,8 +3,8 @@ import Navbar from "@/components/Navbar";
 import ToggleIcon from "@/components/ToggleIcon";
 
 export default function Product(): JSX.Element {
-  const filledColor = '#FF0000'; // Example custom filled color
-  const outlineColor = '#000000'; // Example custom outline color
+  const filledColor = '#5D4A46'; 
+  const outlineColor = '#000000'; 
 
   return (
     <>

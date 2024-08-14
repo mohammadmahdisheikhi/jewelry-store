@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Drawer from "@/components/Drawer";
-import { Button } from "flowbite-react";
 import { FiArrowRight, FiArrowLeft,  } from 'react-icons/fi';
 
 
@@ -17,21 +16,28 @@ export default function Profile(): JSX.Element {
                 در این قسمت به امکانات مختلف خود دسترسی دارید.
             </p>
         </div>
-        <div className="md:flex gap-8">
-            <button className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary my-4 rounded-[2px]">علاقه‌مندی‌ها
+        <div className="md:grid grid-cols-2 md:gap-8 space-y-4 md:space-y-0">
+            <a href="/personal" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white"> اطلاعات شخصی و مالی
                 <FiArrowLeft  className="w-6 h-6 text-secondary"/>
-            </button>
-            <button className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary my-4 rounded-[2px]">سبد خرید
+            </a>
+            <a href="/bookmarks" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">علاقه‌مندی‌ها
                 <FiArrowLeft  className="w-6 h-6 text-secondary"/>
-            </button>
-        </div>
-        <div className="md:flex gap-8">
-            <button className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary my-4 rounded-[2px]">آگهی‌های من
+            </a>
+            <a href="/cart" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">سبد خرید
                 <FiArrowLeft  className="w-6 h-6 text-secondary"/>
-            </button>
-            <button className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary my-4 rounded-[2px]">تراکنش‌ها
+            </a>
+            <a href="/orderTracking" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">پیگیری سفارش‌های خرید
                 <FiArrowLeft  className="w-6 h-6 text-secondary"/>
-            </button>
+            </a>
+            <a href="/sells" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">پیگری سفارش‌های فروش
+                <FiArrowLeft  className="w-6 h-6 text-secondary"/>
+            </a>
+            <a href="/myAds" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">آگهی‌های من
+                <FiArrowLeft  className="w-6 h-6 text-secondary"/>
+            </a>
+            <a href="/transcations" className="flex justify-between align-baseline w-full p-4 text-scondary text-extrabold border-[1.5px] border border-secondary rounded-[2px] bg-white">تراکنش‌ها
+                <FiArrowLeft  className="w-6 h-6 text-secondary"/>
+            </a>
         </div>
       </div>
     </>

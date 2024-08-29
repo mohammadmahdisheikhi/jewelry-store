@@ -1,0 +1,11 @@
+# Ignore environment folders and files
+.env/
+.env
+env
+db.sqlite3
+
+# Ignore other sensitive or unnecessary files
+*.pyc
+__pycache__/
+venv/
+.DS_Store

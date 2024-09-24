@@ -4,9 +4,11 @@ from rest_framework import status, views, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from .models import Ad, AdImage
-from .serializers import AdSerializer, AdImageSerializer
+from .models import Ad, AdImage, Bookmark
+from .serializers import AdSerializer, AdSingleGetSerializer, AdListGetSerializer, BookmarkSerializer
 from authapp.models import User
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from authapp.serializers import UserSerializer
 
 class AdCreateView(APIView):
@@ -29,8 +31,11 @@ class AdCreateView(APIView):
                 
                 # Handle the images separately if needed
                 images = request.FILES.getlist('images')
+                
                 for image in images:
-                    AdImage.objects.create(ad=ad, image=image)
+                    image = AdImage.objects.create(ad=ad, image=image)
+                    ad.images.add(image)
+                ad.save()
                 
                 return Response({'success': 'Ad created successfully'}, status=status.HTTP_201_CREATED)
             except Exception as e:
@@ -43,17 +48,36 @@ class AdListView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
-        ads = Ad.objects.all()
-        serializer = AdSerializer(ads, many=True)
+        ads = Ad.objects.all().filter(
+            paid=False, deleted_at__isnull=True, verified=True)
+        serializer = AdListGetSerializer(ads, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
+class AdDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, *args, **kwargs):
+        try:
+            # Retrieve the ad by its primary key
+            ad = Ad.objects.get(pk=pk).filter(verified=True)
+        except Ad.DoesNotExist:
+            # If the ad doesn't exist, return a 404 response
+            return Response({'detail': 'Ad not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Mark the ad as deleted by setting the deleted_at field to the current timestamp
+        ad.deleted_at = timezone.now()
+        ad.save()
+
+        return Response({'detail': 'Ad deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
 
 class DisplayAd(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs['id'])  # Ensure 'id' is retrieved correctly
-        serializer = AdSerializer(ad)  # Serialize the Ad instance
+        serializer = AdSingleGetSerializer(ad)  # Serialize the Ad instance
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
@@ -63,19 +87,32 @@ class UserAdsListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        print(f"Fetching ads for user: {user}")  # Debugging output
-        return Ad.objects.filter(user=user)
+        return Ad.objects.filter(user=user, verified=True)
 
 
-class AdDetailView(generics.RetrieveDestroyAPIView):
-    queryset = Ad.objects.all()
-    serializer_class = AdSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class AddBookmark(APIView):
+    permission_classes = [IsAuthenticated]  # Ensures only authenticated users can access this view
 
-    def delete(self, request, *args, **kwargs):
-        ad = self.get_object()
-        if ad.user != request.user:
-            return Response({"detail": "You do not have permission to delete this ad."}, status=status.HTTP_403_FORBIDDEN)
-        
-        ad.delete()
-        return Response({"detail": "Ad deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    def post(self, request, pk, *args, **kwargs):
+        user = request.user
+        # Fetch the ad object or return 404 if not found
+        ad = get_object_or_404(Ad, pk=pk)
+
+        # Create a bookmark for the authenticated user and the specified ad
+        bookmark = Bookmark(user=user, ad=ad)
+        bookmark.save()
+
+        return Response({'detail': 'Bookmark added successfully.'}, status=status.HTTP_201_CREATED)
+    
+
+    
+class GetBookmarks(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        # Retrieve all bookmarks for the authenticated user
+        bookmarks = Bookmark.objects.filter(user=user)
+        serializer = BookmarkSerializer(bookmarks, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -13,7 +13,7 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = ['id', 'title', 'images', 'type', 'weight', 'carat', 'price', 'receipt_image', 'created_at']
+        fields = ['id', 'title', 'images', 'type', 'weight', 'carat', 'price', 'receipt_image']
 
     def create(self, validated_data):
         images_data = self.context['request'].FILES.getlist('images')
@@ -29,3 +29,35 @@ class AdSerializer(serializers.ModelSerializer):
 
 
 
+class AdListGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ad
+        fields = [
+            "id",
+            "title",
+            "images",
+            "price",
+            "created_at",
+            "images",
+        ]
+    
+
+class AdSingleGetSerializer(serializers.ModelSerializer):
+    images = AdImageSerializer(many=True)
+    class Meta:
+        model = Ad
+        fields = "__all__"
+
+
+class AdImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdImage
+        fields = ['id', 'image']
+    
+
+from .models import Bookmark
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bookmark
+        fields = ['ad']

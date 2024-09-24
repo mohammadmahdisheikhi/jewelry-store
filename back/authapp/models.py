@@ -50,6 +50,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    city = models.CharField(max_length=30, blank=True, null=True, default=None)
+    address = models.TextField(blank=True, null=True, default=None)
+    shaba = models.CharField(max_length=30, blank=True, null=True, default=None)
+    postal_code = models.CharField(max_length=30, blank=True, null=True, default=None)
+
     groups = models.ManyToManyField(
         Group,
         related_name='custom_user_groups',

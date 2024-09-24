@@ -7,7 +7,6 @@ export async function uploadFile(
 	fileBuffer: Buffer,
 ) {
 	const x = await minioClient.listBuckets()
-	console.log(x)
 	await minioClient.putObject(bucketName, fileName, fileBuffer)
 }
 

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'authapp', 
     'ad',
+    'payments',
 
     'django.contrib.admin',
     'django.contrib.auth',
